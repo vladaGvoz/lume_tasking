@@ -68,7 +68,6 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             titleTextView = itemView.findViewById(R.id.task_title);
             checkBox = itemView.findViewById(R.id.task_checkbox);
 
-            // --- Click for editing ---
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -76,7 +75,6 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                 }
             });
 
-            // --- Long press for deletion ---
             itemView.setOnLongClickListener(v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
@@ -86,14 +84,13 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                 return false;
             });
 
-            // --- Checkbox change ---
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-                    // Temporarily remove listener to avoid recursion
+
                     checkBox.setOnCheckedChangeListener(null);
                     listener.onItemCheckChanged(getItem(position), isChecked);
-                    // Restore listener
+
                     checkBox.setOnCheckedChangeListener((bView, bIsChecked) -> {
                         int p = getAdapterPosition();
                         if (listener != null && p != RecyclerView.NO_POSITION) {
