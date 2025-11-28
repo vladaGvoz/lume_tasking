@@ -20,7 +20,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
     public interface OnItemClickListener {
         void onItemCheckChanged(Task task, boolean isChecked);
         void onItemClick(Task task);
-        void onItemLongClick(Task task); // long-press callback
+        void onItemLongClick(Task task);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
