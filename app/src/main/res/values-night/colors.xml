@@ -1,0 +1,9 @@
+<resources>
+    <color name="screenBackground">#4A148C</color> <!-- dark purple -->
+    <color name="primaryText">#FFF176</color>      <!-- yellow -->
+    <color name="secondaryText">#FFD54F</color>    <!-- lighter yellow -->
+    <color name="buttonBackground">#FFF9C4</color>
+    <color name="buttonText">#4A148C</color>
+    <color name="fabColor">#FFF9C4</color>
+    <color name="fabIconColor">#4A148C</color>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General App Name -->
+    <string name="app_name">Lume Tasking</string>
+
+    <!-- Task List Fragment Resources -->
+    <string name="add_new_task">Add new task</string>
+    <string name="task_complete_status">Task completion status checkbox</string>
+
+    <!-- Task Detail Fragment Resources -->
+    <string name="task_title_hint">Title (e.g., Buy Groceries)</string>
+    <string name="task_description_hint">Details (optional)</string>
+    <string name="button_save">Save Task</string>
+    <string name="button_update">Update Task</string>
+</resources>

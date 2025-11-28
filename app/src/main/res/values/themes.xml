@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.Loom" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colors -->
+        <item name="colorPrimary">@color/buttonBackground</item>
+        <item name="colorPrimaryVariant">@color/buttonBackground</item>
+        <item name="colorSecondary">@color/secondaryText</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">@color/screenBackground</item>
+
+        <!-- Text -->
+        <item name="android:textColorPrimary">@color/primaryText</item>
+        <item name="android:textColorSecondary">@color/secondaryText</item>
+
+        <!-- Buttons / FABs -->
+        <item name="colorOnPrimary">@color/buttonText</item>
+    </style>
+
+    <style name="AppTextStyle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/fredoka</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="Theme.Loom" parent="Base.Theme.Loom" />
+
+</resources>
