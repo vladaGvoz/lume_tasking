@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -27,6 +28,8 @@ public class TaskListFragment extends Fragment {
     private TaskViewModel taskViewModel;
     private TaskAdapter taskAdapter;
     private NavController navController;
+
+    private TextView tvEmpty;
 
     public TaskListFragment() {}
 
@@ -50,8 +53,21 @@ public class TaskListFragment extends Fragment {
         taskAdapter = new TaskAdapter();
         recyclerView.setAdapter(taskAdapter);
 
-        taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> taskAdapter.submitList(tasks));
+        // --- Empty text reference ---
+        tvEmpty = view.findViewById(R.id.tvEmpty);
 
+        // --- Observe data with empty-state handling ---
+        taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
+            taskAdapter.submitList(tasks);
+
+            if (tasks == null || tasks.isEmpty()) {
+                tvEmpty.setVisibility(View.VISIBLE);
+            } else {
+                tvEmpty.setVisibility(View.GONE);
+            }
+        });
+
+        // --- Adapter click listeners ---
         taskAdapter.setOnItemClickListener(new TaskAdapter.OnItemClickListener() {
             @Override
             public void onItemCheckChanged(Task task, boolean isChecked) {
@@ -91,6 +107,7 @@ public class TaskListFragment extends Fragment {
             }
         });
 
+        // --- FAB add ---
         FloatingActionButton fab = view.findViewById(R.id.fab_add_task);
         fab.setOnClickListener(v -> navController.navigate(R.id.action_taskListFragment_to_taskDetailFragment));
     }

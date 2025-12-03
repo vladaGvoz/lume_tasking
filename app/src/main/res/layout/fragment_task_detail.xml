@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,41 +8,73 @@
     android:padding="16dp"
     tools:context=".ui.TaskDetailFragment">
 
-    <EditText
-        android:id="@+id/edit_text_task_title"
+    <!-- Title Box -->
+    <LinearLayout
+        android:id="@+id/title_box_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/task_title_hint"
-        android:inputType="textCapSentences"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/title_box"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="name" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/edit_text_task_description"
+        <EditText
+            android:id="@+id/edit_text_task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/task_title_hint"
+            android:inputType="textCapSentences"
+            android:textSize="20sp"
+            android:autofillHints="name"/>
+    </LinearLayout>
+
+    <!-- Description Box -->
+    <LinearLayout
+        android:id="@+id/details_box_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/details_box"
+        android:orientation="vertical"
         android:layout_marginTop="16dp"
-        android:hint="@string/task_description_hint"
-        android:inputType="textMultiLine|textCapSentences"
-        android:minLines="3"
-        android:gravity="top|start"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_box_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_task_title"
-        android:autofillHints="body" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Save/Update Button -->
+        <EditText
+            android:id="@+id/edit_text_task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/task_description_hint"
+            android:inputType="textMultiLine|textCapSentences"
+            android:minLines="3"
+            android:gravity="top|start"/>
+    </LinearLayout>
+
+    <!-- Save Button -->
     <Button
         android:id="@+id/button_save_task"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/button_save"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_box_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_task_description" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Ad Banner Placeholder -->
+    <TextView
+        android:id="@+id/ad_banner_placeholder"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Ad Banner Placeholder"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:alpha="0.5"
+        android:background="#DDDDDD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
