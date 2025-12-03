@@ -46,8 +46,8 @@ public class TaskViewModel extends AndroidViewModel {
         taskToEdit.postValue(fetchedTask);
         return taskToEdit;
     }
-
-    public LiveData<Task> getTaskToEdit() {
-        return taskToEdit;
-    }
+//
+//    public LiveData<Task> getTaskToEdit() {
+//        return taskToEdit;
+//    }
 }
