@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General App Name -->
-    <string name="app_name">Lume Tasking</string>
+    <string name="app_name">LumeTasking</string>
 
     <!-- Task List Fragment Resources -->
     <string name="add_new_task">Add new task</string>
