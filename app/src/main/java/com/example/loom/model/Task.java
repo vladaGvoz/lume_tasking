@@ -11,11 +11,11 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String title;
-    private String description;
-    private boolean isCompleted;
+    private final String title;
+    private final String description;
+    private final boolean isCompleted;
 
-    private long dueDate;   // <-- renamed field
+    private final long dueDate;   // <-- renamed field
 
     public Task(String title, String description, boolean isCompleted, long dueDate) {
         this.title = title;
