@@ -1,7 +1,10 @@
 package com.example.loom.ui;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +23,8 @@ import com.example.loom.R;
 import com.example.loom.model.Task;
 import com.example.loom.viewmodel.TaskViewModel;
 
+import java.util.Calendar;
+
 public class TaskDetailFragment extends Fragment {
 
     private TaskViewModel taskViewModel;
@@ -27,10 +32,11 @@ public class TaskDetailFragment extends Fragment {
 
     private EditText editTextTitle;
     private EditText editTextDescription;
+    private EditText editTextDate;
     private Button buttonSave;
 
     private int taskId = -1;
-    private long taskCreationTimestamp = 0;
+    private long dueDate = 0;
     private boolean isTaskCompleted = false;
 
     public TaskDetailFragment() {}
@@ -50,7 +56,31 @@ public class TaskDetailFragment extends Fragment {
 
         editTextTitle = view.findViewById(R.id.edit_text_task_title);
         editTextDescription = view.findViewById(R.id.edit_text_task_description);
+        editTextDate = view.findViewById(R.id.edit_text_task_date);
         buttonSave = view.findViewById(R.id.button_save_task);
+
+        // ---- DATE PICKER ----
+        editTextDate.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int y = calendar.get(Calendar.YEAR);
+            int m = calendar.get(Calendar.MONTH);
+            int d = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dialog = new DatePickerDialog(requireContext(),
+                    (view1, year, month, dayOfMonth) -> {
+                        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        editTextDate.setText(date);
+
+                        // store selected date as millis
+                        Calendar picked = Calendar.getInstance();
+                        picked.set(year, month, dayOfMonth, 0, 0, 0);
+                        dueDate = picked.getTimeInMillis();
+                    },
+                    y, m, d
+            );
+
+            dialog.show();
+        });
 
         if (getArguments() != null && getArguments().containsKey("taskId")) {
             int id = getArguments().getInt("taskId", -1);
@@ -63,15 +93,24 @@ public class TaskDetailFragment extends Fragment {
         buttonSave.setOnClickListener(v -> saveTask());
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadTaskDetails(int id) {
         taskViewModel.getTaskById(id).observe(getViewLifecycleOwner(), task -> {
             if (task != null) {
                 editTextTitle.setText(task.getTitle());
                 editTextDescription.setText(task.getDescription());
 
-                taskCreationTimestamp = task.getCreationTimestamp();
-                isTaskCompleted = task.isCompleted();
+                dueDate = task.getDueDate();
+                if (dueDate > 0) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTimeInMillis(dueDate);
+                    int day = c.get(Calendar.DAY_OF_MONTH);
+                    int month = c.get(Calendar.MONTH) + 1;
+                    int year = c.get(Calendar.YEAR);
+                    editTextDate.setText(day + "/" + month + "/" + year);
+                }
 
+                isTaskCompleted = task.isCompleted();
                 buttonSave.setText(R.string.button_update);
             } else {
                 Toast.makeText(getContext(), "Error loading task.", Toast.LENGTH_SHORT).show();
@@ -89,9 +128,12 @@ public class TaskDetailFragment extends Fragment {
             return;
         }
 
-        long timestamp = taskId == -1 ? System.currentTimeMillis() : taskCreationTimestamp;
+        if (dueDate == 0) {
+            Toast.makeText(getContext(), "Please select a due date", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        Task task = new Task(title, description, isTaskCompleted, timestamp);
+        Task task = new Task(title, description, isTaskCompleted, dueDate);
 
         if (taskId == -1) {
             // INSERT
@@ -104,7 +146,6 @@ public class TaskDetailFragment extends Fragment {
             Toast.makeText(getContext(), "Task Updated!", Toast.LENGTH_SHORT).show();
         }
 
-        // back
         navController.popBackStack();
     }
 }

@@ -14,38 +14,23 @@ public class Task {
     private String title;
     private String description;
     private boolean isCompleted;
-    private long creationTimestamp;
 
-    public Task(String title, String description, boolean isCompleted, long creationTimestamp) {
+    private long dueDate;   // <-- renamed field
+
+    public Task(String title, String description, boolean isCompleted, long dueDate) {
         this.title = title;
         this.description = description;
         this.isCompleted = isCompleted;
-        this.creationTimestamp = creationTimestamp;
+        this.dueDate = dueDate;
     }
 
-    // --- Getters and Setters ---
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public int getId() {
-        return id;
-    }
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public boolean isCompleted() { return isCompleted; }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isCompleted() {
-        return isCompleted;
-    }
-
-    public long getCreationTimestamp() {
-        return creationTimestamp;
-    }
+    public long getDueDate() { return dueDate; }  // <-- new getter
 }

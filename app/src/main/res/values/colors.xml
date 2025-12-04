@@ -6,4 +6,6 @@
     <color name="buttonText">#FFF9C4</color>
     <color name="fabColor">#4A148C</color>
     <color name="fabIconColor">#FFF9C4</color>
+    <color name="card_background">#FFF9C4</color>
+    <color name="card_border">#800080</color>
 </resources>

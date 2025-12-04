@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.loom.R;
 import com.example.loom.model.Task;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 @SuppressWarnings("ClassEscapesDefinedScope")
 public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
 
@@ -41,7 +44,8 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         @Override
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
             return oldItem.getTitle().equals(newItem.getTitle()) &&
-                    oldItem.isCompleted() == newItem.isCompleted();
+                    oldItem.isCompleted() == newItem.isCompleted() &&
+                    oldItem.getDueDate() == newItem.getDueDate();
         }
     };
 
@@ -56,17 +60,33 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task currentTask = getItem(position);
+
+        holder.checkBox.setOnCheckedChangeListener(null);
+
         holder.titleTextView.setText(currentTask.getTitle());
         holder.checkBox.setChecked(currentTask.isCompleted());
+
+        DateFormat dateFormat = DateFormat.getDateInstance();
+        String dueDateStr = "Due: " + dateFormat.format(new Date(currentTask.getDueDate()));
+        holder.dueDateTextView.setText(dueDateStr);
+
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (listener != null && holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                listener.onItemCheckChanged(currentTask, isChecked);
+            }
+        });
     }
+
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleTextView;
+        private final TextView dueDateTextView;
         private final CheckBox checkBox;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.task_title);
+            dueDateTextView = itemView.findViewById(R.id.task_due_date);
             checkBox = itemView.findViewById(R.id.task_checkbox);
 
             itemView.setOnClickListener(v -> {
@@ -88,7 +108,6 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-
                     checkBox.setOnCheckedChangeListener(null);
                     listener.onItemCheckChanged(getItem(position), isChecked);
 

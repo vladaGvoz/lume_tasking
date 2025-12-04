@@ -53,10 +53,8 @@ public class TaskListFragment extends Fragment {
         taskAdapter = new TaskAdapter();
         recyclerView.setAdapter(taskAdapter);
 
-        // --- Empty text reference ---
         tvEmpty = view.findViewById(R.id.tvEmpty);
 
-        // --- Observe data with empty-state handling ---
         taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
             taskAdapter.submitList(tasks);
 
@@ -67,26 +65,28 @@ public class TaskListFragment extends Fragment {
             }
         });
 
-        // --- Adapter click listeners ---
         taskAdapter.setOnItemClickListener(new TaskAdapter.OnItemClickListener() {
             @Override
             public void onItemCheckChanged(Task task, boolean isChecked) {
-                // UPDATE OPERATION
+
                 Task updatedTask = new Task(
                         task.getTitle(),
                         task.getDescription(),
                         isChecked,
-                        task.getCreationTimestamp()
+                        task.getDueDate()
                 );
+
                 updatedTask.setId(task.getId());
+
                 taskViewModel.update(updatedTask);
 
-                Toast.makeText(getContext(), isChecked ? "Task Completed!" : "Task Unchecked.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),
+                        isChecked ? "Task Completed!" : "Task Unchecked.",
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemClick(Task task) {
-                // EDIT TASK
                 Bundle bundle = new Bundle();
                 bundle.putInt("taskId", task.getId());
                 navController.navigate(R.id.action_taskListFragment_to_taskDetailFragment, bundle);
@@ -94,7 +94,6 @@ public class TaskListFragment extends Fragment {
 
             @Override
             public void onItemLongClick(Task task) {
-                // DELETE TASK (with confirmation)
                 new AlertDialog.Builder(requireContext())
                         .setTitle("Delete Task")
                         .setMessage("Are you sure you want to delete this task?")
@@ -107,8 +106,9 @@ public class TaskListFragment extends Fragment {
             }
         });
 
-        // --- FAB add ---
         FloatingActionButton fab = view.findViewById(R.id.fab_add_task);
-        fab.setOnClickListener(v -> navController.navigate(R.id.action_taskListFragment_to_taskDetailFragment));
+        fab.setOnClickListener(v ->
+                navController.navigate(R.id.action_taskListFragment_to_taskDetailFragment)
+        );
     }
 }

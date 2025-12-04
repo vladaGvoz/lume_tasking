@@ -34,7 +34,7 @@
         android:id="@+id/details_box_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/details_box"
+        android:background="@drawable/title_box"
         android:orientation="vertical"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/title_box_container"
@@ -51,6 +51,28 @@
             android:gravity="top|start"/>
     </LinearLayout>
 
+    <!-- Date Box (EditText that opens DatePickerDialog) -->
+    <LinearLayout
+        android:id="@+id/date_box_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_box"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/details_box_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/edit_text_task_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Date"
+            android:focusable="false"
+            android:inputType="none"
+            android:padding="12dp"/>
+    </LinearLayout>
+
     <!-- Save Button -->
     <Button
         android:id="@+id/button_save_task"
@@ -58,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/button_save"
-        app:layout_constraintTop_toBottomOf="@id/details_box_container"
+        app:layout_constraintTop_toBottomOf="@id/date_box_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
