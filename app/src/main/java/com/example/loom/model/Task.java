@@ -32,5 +32,5 @@ public class Task {
 
     public boolean isCompleted() { return isCompleted; }
 
-    public long getDueDate() { return dueDate; }  // <-- new getter
+    public long getDueDate() { return dueDate; }
 }

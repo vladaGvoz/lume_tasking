@@ -23,7 +23,7 @@ public class TaskViewModel extends AndroidViewModel {
         allTasks = repository.getAllTasks();
     }
 
-    // --- CRUD Wrappers ---
+    // crud wrappers
 
     public void insert(Task task) {
         repository.insert(task);

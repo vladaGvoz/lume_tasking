@@ -59,7 +59,6 @@ public class TaskDetailFragment extends Fragment {
         editTextDate = view.findViewById(R.id.edit_text_task_date);
         buttonSave = view.findViewById(R.id.button_save_task);
 
-        // ---- DATE PICKER ----
         editTextDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int y = calendar.get(Calendar.YEAR);
