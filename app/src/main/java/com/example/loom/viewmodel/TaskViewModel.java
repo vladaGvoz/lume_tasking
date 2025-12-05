@@ -1,6 +1,7 @@
 package com.example.loom.viewmodel;
 
 import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -46,8 +47,10 @@ public class TaskViewModel extends AndroidViewModel {
         taskToEdit.postValue(fetchedTask);
         return taskToEdit;
     }
+
 //
-//    public LiveData<Task> getTaskToEdit() {
-//        return taskToEdit;
+//    public Task getTaskByIdSync(int taskId) {
+//        return repository.getTaskById(taskId);
 //    }
+
 }
