@@ -41,7 +41,9 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         this.listener = listener;
     }
 
-    public TaskAdapter() { super(DIFF_CALLBACK); }
+    public TaskAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     private static final DiffUtil.ItemCallback<Task> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<>() {
@@ -53,14 +55,12 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                 @Override
                 public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
                     return oldItem.getTitle().equals(newItem.getTitle()) &&
+                            oldItem.getDescription().equals(newItem.getDescription()) &&
                             oldItem.isCompleted() == newItem.isCompleted() &&
                             oldItem.getDueDate() == newItem.getDueDate();
                 }
             };
 
-    // -------------------
-    // Selection Functions
-    // -------------------
 
     public void toggleSelection(int position) {
         if (selectedItems.get(position, false)) {
@@ -72,7 +72,9 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         selectionMode = selectedItems.size() > 0;
         notifyItemChanged(position);
 
-        if (listener != null) listener.onSelectionCountChanged(selectedItems.size());
+        if (listener != null) {
+            listener.onSelectionCountChanged(selectedItems.size());
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -83,6 +85,8 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         if (listener != null) listener.onSelectionCountChanged(0);
     }
 
+    public boolean isSelectionMode() { return selectionMode; }
+
     public List<Task> getSelectedTasks() {
         List<Task> tasks = new ArrayList<>();
         for (int i = 0; i < selectedItems.size(); i++) {
@@ -92,9 +96,10 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         return tasks;
     }
 
-    public boolean isSelectionMode() {
-        return selectionMode;
+    public void cancelSelection() {
+        clearSelection();
     }
+
 
     @NonNull
     @Override
@@ -109,15 +114,29 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = getItem(position);
 
+        // Remove listener to avoid unwanted triggers
         holder.checkBox.setOnCheckedChangeListener(null);
+
         holder.checkBox.setChecked(task.isCompleted());
         holder.titleTextView.setText(task.getTitle());
+
+        // Description preview
+        String desc = task.getDescription();
+        if (desc != null && !desc.isEmpty()) {
+            holder.descriptionPreview.setVisibility(View.VISIBLE);
+            holder.descriptionPreview.setText(desc);
+        } else {
+            holder.descriptionPreview.setVisibility(View.GONE);
+        }
 
         DateFormat df = DateFormat.getDateInstance();
         holder.dueTextView.setText("Due: " + df.format(new Date(task.getDueDate())));
 
+        // highlight
         holder.itemView.setBackgroundColor(
-                selectedItems.get(position, false) ? Color.parseColor("#FFF59D") : Color.TRANSPARENT
+                selectedItems.get(position, false)
+                        ? Color.parseColor("#FFF59D")   // pale yellow selection
+                        : Color.TRANSPARENT
         );
 
         holder.checkBox.setOnCheckedChangeListener((b, isChecked) -> {
@@ -127,14 +146,18 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         });
     }
 
+
+    // VIEW HOLDER
     class TaskViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView, dueTextView;
+        TextView titleTextView, dueTextView, descriptionPreview;
         CheckBox checkBox;
 
         TaskViewHolder(@NonNull View itemView) {
             super(itemView);
+
             titleTextView = itemView.findViewById(R.id.task_title);
             dueTextView = itemView.findViewById(R.id.task_due_date);
+            descriptionPreview = itemView.findViewById(R.id.task_description_preview);
             checkBox = itemView.findViewById(R.id.task_checkbox);
 
             itemView.setOnClickListener(v -> {
@@ -147,6 +170,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                     listener.onItemClick(getItem(pos));
                 }
             });
+
 
             itemView.setOnLongClickListener(v -> {
                 int pos = getAdapterPosition();
