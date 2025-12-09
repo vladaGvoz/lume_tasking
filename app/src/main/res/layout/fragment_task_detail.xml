@@ -8,81 +8,97 @@
     android:padding="16dp"
     tools:context=".ui.TaskDetailFragment">
 
-    <!-- Title Box -->
-    <LinearLayout
-        android:id="@+id/title_box_container"
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/title_box"
-        android:orientation="vertical"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ad_banner_placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <EditText
-            android:id="@+id/edit_text_task_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/task_title_hint"
-            android:inputType="textCapSentences"
-            android:textSize="20sp"
-            android:autofillHints="name"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
-    <!-- Description Box -->
-    <LinearLayout
-        android:id="@+id/details_box_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/title_box"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/title_box_container"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+            <!-- Title Box -->
+            <LinearLayout
+                android:id="@+id/title_box_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/title_box"
+                android:orientation="vertical"
+                android:padding="12dp">
 
-        <EditText
-            android:id="@+id/edit_text_task_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/task_description_hint"
-            android:inputType="textMultiLine|textCapSentences"
-            android:minLines="3"
-            android:gravity="top|start"/>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/edit_text_task_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/task_title_hint"
+                    android:inputType="textCapSentences"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:autofillHints="name"
+                    android:fontFamily="@font/fredoka"/>
+            </LinearLayout>
 
-    <!-- Date Box (EditText that opens DatePickerDialog) -->
-    <LinearLayout
-        android:id="@+id/date_box_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/title_box"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/details_box_container"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+            <!-- Description Box -->
+            <LinearLayout
+                android:id="@+id/details_box_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/title_box"
+                android:orientation="vertical"
+                android:padding="12dp">
 
-        <EditText
-            android:id="@+id/edit_text_task_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Select Date"
-            android:focusable="false"
-            android:inputType="none"
-            android:padding="12dp"/>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/edit_text_task_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/task_description_hint"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="3"
+                    android:gravity="top|start"
+                    android:fontFamily="@font/fredoka"/>
+            </LinearLayout>
 
-    <!-- Save Button -->
-    <Button
-        android:id="@+id/button_save_task"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/button_save"
-        app:layout_constraintTop_toBottomOf="@id/date_box_container"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <!-- Date Box -->
+            <LinearLayout
+                android:id="@+id/date_box_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/title_box"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <EditText
+                    android:id="@+id/edit_text_task_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:drawablePadding="8dp"
+                    android:contentDescription="Select task due date"
+                    tools:ignore="ContentDescription,TextFields" />
+            </LinearLayout>
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/button_save_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/button_save"
+                style="@style/Widget.MaterialComponents.Button"
+                android:fontFamily="@font/fredoka"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Ad Banner Placeholder -->
     <TextView
@@ -98,5 +114,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
